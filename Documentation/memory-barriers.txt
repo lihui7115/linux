@@ -390,7 +390,7 @@ Memory barriers come in four basic varieties:
      dependency barriers; see the "SMP barrier pairing" subsection.
 
 
- (2) Data dependency barriers.
+ (2) Data dependency barriers.  (200317-1432 @ CLH)
 
      A data dependency barrier is a weaker form of read barrier.  In the case
      where two loads are performed such that the second depends on the result
@@ -572,7 +572,7 @@ sequence, Q must be either &A or &B, and that:
 But!  CPU 2's perception of P may be updated _before_ its perception of B, thus
 leading to the following situation:
 
-	(Q == &B) and (D == 2) ????
+	(Q == &B) and (D == 2) ????           // <= 说的是 "Q=READ_ONCE(P)"在"B=4"之前执行
 
 Whilst this may seem like a failure of coherency or causality maintenance, it
 isn't, and this behaviour can be observed on certain real CPUs (such as the DEC
@@ -877,7 +877,7 @@ These two examples are the LB and WWC litmus tests from this paper:
 http://www.cl.cam.ac.uk/users/pes20/ppc-supplemental/test6.pdf and this
 site: https://www.cl.cam.ac.uk/~pes20/ppcmem/index.html.
 
-In summary:
+In summary:   (20200317-1547 @ CLH)
 
   (*) Control dependencies can order prior loads against later stores.
       However, they do -not- guarantee any other sort of ordering:
